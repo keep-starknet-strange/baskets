@@ -13,7 +13,7 @@ export default function Dashboard() {
   const { status } = useAccount();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-20">
+    <div className="min-h-screen bg-gray-900 text-white px-24 py-14">
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Trending Baskets Section */}
         <section>
