@@ -46,7 +46,7 @@ export default function TopNav() {
               >
                 <button onClick={() => connect({ connector })} type="button">
                   <Image
-                    priority={false}
+                    priority={true} //switch to true, priority for image to preload
                     width={6}
                     height={6}
                     alt="conn-icon"
