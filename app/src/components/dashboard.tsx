@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { ArrowUpIcon, TrendingUpIcon, UserIcon, WalletIcon } from 'lucide-react'
 
 export default function Dashboard() {
@@ -83,7 +84,7 @@ export default function Dashboard() {
           {activeTab === 'active' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {userBaskets.map((vault) => (
-                <div key={vault.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                <Link key={vault.id} href="/basket" className="bg-gray-800 border border-gray-700 rounded-lg p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center">
@@ -109,7 +110,7 @@ export default function Dashboard() {
                       <p className="text-sm font-medium">${vault.currentValue}</p>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
