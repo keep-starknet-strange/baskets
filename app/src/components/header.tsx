@@ -1,6 +1,9 @@
+import { useAccount, useConnect } from '@starknet-react/core'
 import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 
 export default function Header() {
+  const { connect, connectors } = useConnect()
+  
   return (
     <header className="bg-gray-900 mb-8">
       <h1 className="text-3xl font-bold mb-4">Lucas&apos;s Dumbshit Index</h1>
