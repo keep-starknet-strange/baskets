@@ -1,32 +1,43 @@
-/// Interface representing `HelloContract`.
-/// This interface allows modification and retrieval of the contract balance.
+use creator::{Basket, Token};
+
+
 #[starknet::interface]
-pub trait IHelloStarknet<TContractState> {
-    /// Increase contract balance.
-    fn increase_balance(ref self: TContractState, amount: felt252);
-    /// Retrieve contract balance.
-    fn get_balance(self: @TContractState) -> felt252;
+pub trait Creator<T> {
+    fn create_basket(ref self: T, Array<Token>) -> u64;
+    fn get_basket(self: @T, basket_id: u64) -> Basket;
+    // fn get_performance(self: @T, basket_id: u64) -> BasketInfo { performance, liquidity };
 }
 
-/// Simple contract for managing balance.
+
+
+
 #[starknet::contract]
-mod HelloStarknet {
-    use core::starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess};
+pub mod creator {
+    use starknet::storage::{
+        StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map,
+         Vec, VecTrait, MutableVecTrait,
+    };
+    use starknet::ContractAddress;
+
+    #[phantom]
+    pub struct Token {
+        token: ContractAddress,
+        amount: u256
+    }
+
+    pub struct Basket {
+        value: Span<Token>
+    }
+    #[phantom]
+    pub struct StorageBasket {
+        value: Vec<Token>
+    }
 
     #[storage]
-    struct Storage {
-        balance: felt252,
+    pub struct Storage {
+        baskets: Vec<Baskets>
     }
 
-    #[abi(embed_v0)]
-    impl HelloStarknetImpl of super::IHelloStarknet<ContractState> {
-        fn increase_balance(ref self: ContractState, amount: felt252) {
-            assert(amount != 0, 'Amount cannot be 0');
-            self.balance.write(self.balance.read() + amount);
-        }
 
-        fn get_balance(self: @ContractState) -> felt252 {
-            self.balance.read()
-        }
-    }
+    
 }
