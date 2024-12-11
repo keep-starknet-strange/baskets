@@ -19,7 +19,7 @@ export default function Holdings() {
       const ctx = chartRef.current.getContext('2d');
       
       if (ctx) {
-        new Chart(ctx, {
+        const chart = new Chart(ctx, {
           type: 'doughnut',
           data: {
             labels: holdings.map(holding => holding.name),
@@ -43,6 +43,10 @@ export default function Holdings() {
             }
           }
         });
+
+        return () => {
+          chart.destroy();
+        };
       }
     }
   }, []);
