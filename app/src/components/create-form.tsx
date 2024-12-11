@@ -7,9 +7,6 @@ import * as z from "zod";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
   symbol: z.string().min(2, {
     message: "All upper case.",
   }),
@@ -68,7 +65,6 @@ export default function CryptoBasketForm() {
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       symbol: "",
       commission: 0,
       timelock: 1,
@@ -89,25 +85,6 @@ export default function CryptoBasketForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mx-6 lg:mx-20">
       <div>
         <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-300"
-        >
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          {...register("name")}
-          className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="My Awesome Crypto Basket"
-        />
-        {errors.name && (
-          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label
           htmlFor="symbol"
           className="block text-sm font-medium text-gray-300"
         >
@@ -120,8 +97,8 @@ export default function CryptoBasketForm() {
           className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Basket Symbol (e.g. AIX)"
         />
-        {errors.name && (
-          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+        {errors.symbol && (
+          <p className="mt-1 text-sm text-red-500">{errors.symbol.message}</p>
         )}
       </div>
 
