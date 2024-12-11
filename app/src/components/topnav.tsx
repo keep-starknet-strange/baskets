@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function TopNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,10 +16,10 @@ export default function TopNav() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Baskets</span>
-            <img alt="" src="basketsLogo.png" className="h-8 w-auto" />
-          </a>
+            <Image width={35} height={35} alt="" src="/basketsLogo.png" />
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -45,7 +47,7 @@ export default function TopNav() {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Baskets</span>
-              <img alt="" src="basketsLogo.png" className="h-8 w-auto" />
+              <Image width={35} height={35} alt="" src="basketsLogo.png" />
             </a>
             <button
               type="button"
