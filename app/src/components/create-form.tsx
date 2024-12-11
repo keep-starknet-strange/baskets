@@ -70,7 +70,7 @@ export default function CryptoBasketForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newElement, setNewElement] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  const { address } = useAccount();
+  const { address,account } = useAccount();
   const { chain } = useNetwork();
   const [selectedElements, setSelectedElements] = useState<SelectedElement[]>(
     [],
@@ -78,6 +78,7 @@ export default function CryptoBasketForm() {
   const { contract } = useContract({
     abi: erc20Abi,
     address: chain.nativeCurrency.address,
+    provider: account
   });
 
   const handleAddElement = () => {
@@ -107,17 +108,12 @@ export default function CryptoBasketForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = () => {
+  const onSubmit: SubmitHandler<FormSchemaType> = async () => {
     setIsSubmitting(true);
+    console.log(contract)
+    let res = await contract.approve(0x1, 0x1);
+    console.log(res)
     console.log("WHAT THE FUCK");
-    const { send, error } = useSendTransaction({
-      calls:
-        contract && address
-          ? [contract.populate("transfer", [address, 1])]
-          : undefined,
-    });
-    console.log("SEND: ", send);
-    console.log("ERROR: ", error);
     reset();
     alert("Basket created successfully!");
   };
