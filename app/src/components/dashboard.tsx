@@ -20,6 +20,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 mb-4">
             <TrendingUpIcon className="w-5 h-5" />
             <h2 className="text-xl font-semibold">Top Trending</h2>
+            <em>(***just for show***)</em>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {trendingBaskets.map((vault) => (
