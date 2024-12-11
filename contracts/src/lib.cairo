@@ -18,7 +18,7 @@ pub trait Creator<TContractState> {
 #[derive(Debug, Drop, Hash, Serde, starknet::Store, Clone, Copy)]
 pub struct BasketInfo {
     pub performance: Performance,
-    pub liquidity: Amount,
+    pub liquidity: u128,
     pub length: BasketLen,
 }
 
@@ -84,7 +84,7 @@ pub mod creator {
         basket_len: Map<BasketIdKey, BasketLen>,
         total_baskets: u128,
         basket_info: Map<BasketIdKey, BasketInfo>,
-        user_info: Map<ContractAddress, Map<BasketId, Amount>>,
+        user_info: Map<ContractAddress, Map<BasketIdKey, Amount>>,
         token_dispatcher: IERC20Dispatcher,
     }
 
@@ -103,7 +103,9 @@ pub mod creator {
             basket_id
         }
 
-        fn deposit(ref self: ContractState, basket_id: BasketIdKey, amount: Amount, quantity: u128) {
+        fn deposit(
+            ref self: ContractState, basket_id: BasketIdKey, amount: Amount, quantity: u128,
+        ) {
             // increase basket info liquidity
             let mut basket_info = self.basket_info.entry(basket_id).read();
             basket_info.liquidity += quantity;
@@ -114,17 +116,15 @@ pub mod creator {
                 .token_dispatcher
                 .read()
                 .transfer_from(
-                    sender: get_caller_address(),
-                    recipient: get_contract_address(),
-                    :amount,
+                    sender: get_caller_address(), recipient: get_contract_address(), :amount,
                 );
 
             // TODO:
-            let basket = self.get_basket(basket_id_key: basket_id.get(0));                
+            let basket = self.get_basket(basket_id_key: basket_id);
             // increase user token balance
             let user = get_caller_address();
             let assets = self.user_info.entry(user).entry(basket_id).read();
-            self.user_info.entry(user).entry(basket_id).write(assets + quantity);
+            self.user_info.entry(user).entry(basket_id).write(assets + quantity.into());
         }
 
         fn withdraw(ref self: ContractState, basket_id: u128) {
