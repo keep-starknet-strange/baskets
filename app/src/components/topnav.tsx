@@ -45,14 +45,15 @@ export default function TopNav() {
                 className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200"
               >
                 <button onClick={() => connect({ connector })} type="button">
-                  <Image
-                    priority={true} //switch to true, priority for image to preload
-                    width={6}
-                    height={6}
-                    alt="conn-icon"
-                    src={connector?.icon.toString()}
-                    className="w-6"
-                  />
+                  {connector?.icon.toString() && (
+                    <Image
+                      width={6}
+                      height={6}
+                      alt="conn-icon"
+                      src={connector?.icon.toString()}
+                      className="w-6"
+                    />
+                  )}
                 </button>
               </div>
             ))

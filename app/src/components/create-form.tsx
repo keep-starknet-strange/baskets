@@ -5,12 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
-import {
-  // useSendTransaction,
-  // useContract,
-  // useAccount,
-  // useNetwork,
-} from "@starknet-react/core";
+import {} from // useSendTransaction,
+// useContract,
+// useAccount,
+// useNetwork,
+"@starknet-react/core";
 // import { basketsAbi } from "@/lib/data/basketsAbi";
 // import { erc20Abi } from "@/lib/data/erc20Abi";
 
@@ -113,12 +112,12 @@ export default function CryptoBasketForm() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = () => {
     setIsSubmitting(true);
-    // const { send, error } = useSendTransaction({ 
-    //   calls: 
-    //     contract && address 
-    //       ? [contract.populate("transfer", [address, 1])] 
-    //       : undefined, 
-    // }); 
+    // const { send, error } = useSendTransaction({
+    //   calls:
+    //     contract && address
+    //       ? [contract.populate("transfer", [address, 1])]
+    //       : undefined,
+    // });
     // console.log("SEND: ", send);
     // console.log("ERROR: ", error);
     reset();
@@ -203,7 +202,7 @@ export default function CryptoBasketForm() {
           </div>
 
           <div
-            className="w-full bg-indigo-500 text-grey-300 font-medium py-2 px-4 rounded-md hover:bg-indigo-600"
+            className="w-half bg-indigo-500 text-grey-300 font-medium py-2 px-4 rounded-md hover:bg-indigo-600"
             onClick={handleAddElement}
           >
             Add Asset
