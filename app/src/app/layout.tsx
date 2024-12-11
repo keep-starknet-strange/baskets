@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Baskets',
-  description: 'View top trending and your personal baskets',
-}
+  title: "Baskets",
+  description: "View top trending and your personal baskets",
+};
 
 export default function RootLayout({
   children,

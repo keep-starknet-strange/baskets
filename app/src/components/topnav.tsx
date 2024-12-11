@@ -1,24 +1,25 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function TopNav() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="bg-gray-900">
-      <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+      <nav
+        aria-label="Global"
+        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+      >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Baskets</span>
-            <img
-              alt=""
-              src="basketsLogo.png"
-              className="h-8 w-auto"
-            />
-          </a>
+            <Image width={35} height={35} alt="" src="/basketsLogo.png" />
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -36,17 +37,17 @@ export default function TopNav() {
           </a>
         </div>
       </nav>
-      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+      <Dialog
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+        className="lg:hidden"
+      >
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Baskets</span>
-              <img
-                alt=""
-                src="basketsLogo.png"
-                className="h-8 w-auto"
-              />
+              <Image width={35} height={35} alt="" src="basketsLogo.png" />
             </a>
             <button
               type="button"
@@ -72,5 +73,5 @@ export default function TopNav() {
         </DialogPanel>
       </Dialog>
     </header>
-  )
+  );
 }

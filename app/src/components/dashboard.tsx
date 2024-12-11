@@ -1,12 +1,17 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowUpIcon, TrendingUpIcon, UserIcon, WalletIcon } from 'lucide-react'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
+import { useState } from "react";
+import Link from "next/link";
+import {
+  ArrowUpIcon,
+  TrendingUpIcon,
+  UserIcon,
+  WalletIcon,
+} from "lucide-react";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('active')
+  const [activeTab, setActiveTab] = useState("active");
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-20">
@@ -19,7 +24,10 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {trendingBaskets.map((vault) => (
-              <div key={vault.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+              <div
+                key={vault.id}
+                className="bg-gray-800 border border-gray-700 rounded-lg p-4"
+              >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center">
@@ -61,31 +69,35 @@ export default function Dashboard() {
               <button
                 type="button"
                 className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
-                  activeTab === 'active'
-                    ? 'bg-indigo-500 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  activeTab === "active"
+                    ? "bg-indigo-500 text-white"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
-                onClick={() => setActiveTab('active')}
+                onClick={() => setActiveTab("active")}
               >
                 Active
               </button>
               <button
                 type="button"
                 className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
-                  activeTab === 'closed'
-                    ? 'bg-indigo-500 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  activeTab === "closed"
+                    ? "bg-indigo-500 text-white"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
-                onClick={() => setActiveTab('closed')}
+                onClick={() => setActiveTab("closed")}
               >
                 Closed
               </button>
             </div>
           </div>
-          {activeTab === 'active' ? (
+          {activeTab === "active" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {userBaskets.map((vault) => (
-                <Link key={vault.id} href="/basket" className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                <Link
+                  key={vault.id}
+                  href="/basket"
+                  className="bg-gray-800 border border-gray-700 rounded-lg p-4"
+                >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center">
@@ -93,7 +105,9 @@ export default function Dashboard() {
                       </div>
                       <div>
                         <h3 className="text-sm font-medium">{vault.name}</h3>
-                        <p className="text-xs text-gray-400">{vault.strategy}</p>
+                        <p className="text-xs text-gray-400">
+                          {vault.strategy}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 text-green-500 text-sm">
@@ -108,28 +122,32 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-400">Current Value</p>
-                      <p className="text-sm font-medium">${vault.currentValue}</p>
+                      <p className="text-sm font-medium">
+                        ${vault.currentValue}
+                      </p>
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">No closed Baskets</div>
+            <div className="text-center py-8 text-gray-400">
+              No closed Baskets
+            </div>
           )}
           <Link href="/create">
             <button
               type="button"
               className="mt-4 flex gap-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-light text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <PlusCircleIcon className="size-6"/>
+              <PlusCircleIcon className="size-6" />
               create basket
             </button>
           </Link>
         </section>
       </div>
     </div>
-  )
+  );
 }
 
 const trendingBaskets = [
@@ -157,7 +175,7 @@ const trendingBaskets = [
     apy: 32.1,
     tvl: "1.8M",
   },
-]
+];
 
 const userBaskets = [
   {
@@ -176,5 +194,4 @@ const userBaskets = [
     deposited: "5,000",
     currentValue: "5,390",
   },
-]
-
+];
