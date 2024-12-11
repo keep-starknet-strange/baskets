@@ -52,7 +52,7 @@ export default function CryptoBasketForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mx-6">
       <div>
         <label
           htmlFor="name"
