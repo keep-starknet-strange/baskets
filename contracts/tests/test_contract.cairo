@@ -1,6 +1,6 @@
 use starknet::ContractAddress;
 
-use snforge_std::{declare, ContractClassTrait, DeclareResultTrait};
+use snforge_std::{declare, ContractClassTrait, DeclareResultTrait, mock_call};
 use snforge_std::{CheatSpan, cheat_account_contract_address, cheat_caller_address};
 use contracts::{CreatorDispatcherTrait, CreatorDispatcher, creator::{Basket, Token}};
 use starknet::{contract_address_const};
@@ -20,6 +20,15 @@ fn setup_contracts() -> (CreatorDispatcher, IERC20Dispatcher) {
         recipient: contract_address_const::<0x1>(),
         owner: contract_address_const::<0x1>(),
     );
+    mock_call(
+        contract_address_const::<
+            0x03c8e56d7f6afccb775160f1ae3b69e3db31b443e544e56bd845d8b3b3a87a21,
+        >(),
+        selector!("exact_output_single"),
+        1_u256,
+        100,
+    );
+
     let contract = declare("creator").unwrap().contract_class();
     let mut constructor_calldata = array![];
     erc20_address.serialize(ref constructor_calldata);
