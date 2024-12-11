@@ -44,7 +44,7 @@ export default function TopNav() {
                 key={connector.id}
                 className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200"
               >
-                {connector.id == "braavos" && (
+                {connector.id === "braavos" && (
                   <button onClick={() => connect({ connector })} type="button">
                     <Image
                       width={6}
@@ -55,7 +55,7 @@ export default function TopNav() {
                     />
                   </button>
                 )}
-                {connector.id == "argentX" && (
+                {connector.id === "argentX" && (
                   <button onClick={() => connect({ connector })} type="button">
                     <Image
                       width={6}
