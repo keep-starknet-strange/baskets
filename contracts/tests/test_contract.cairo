@@ -2,44 +2,32 @@ use starknet::ContractAddress;
 
 use snforge_std::{declare, ContractClassTrait, DeclareResultTrait};
 
-use contracts::{CreatorDispatcherTrait, CreatorDispatcher};
+use contracts::{CreatorDispatcherTrait, CreatorDispatcher, creator::{Basket, Token}};
+use starknet::contract_address_const;
 
 fn deploy_main_contract() -> ContractAddress {
     let contract = declare("creator").unwrap().contract_class();
     let mut constructor_calldata = array![];
-    let (contract_address, _) = contract.deploy(constructor_calldata.span()).unwrap();
+    let (contract_address, _) = contract.deploy(@constructor_calldata).unwrap();
     contract_address
 }
 
 #[test]
-fn test_increase_balance() {
-    let contract_address = deploy_contract("HelloStarknet");
+fn test_create_basket() {
+    let contract_address = deploy_main_contract();
 
-    let dispatcher = IHelloStarknetDispatcher { contract_address };
+    let dispatcher = CreatorDispatcher { contract_address };
+    let basket = array![
+        Token { amount: 1, token: contract_address_const::<0x1>() },
+        Token { amount: 2, token: contract_address_const::<0x2>() },
+    ]
+        .span();
 
-    let balance_before = dispatcher.get_balance();
-    assert(balance_before == 0, 'Invalid balance');
+    let basket_id = dispatcher.create_basket(basket);
 
-    dispatcher.increase_balance(42);
+    assert_eq!(basket_id, 0, "invalid basket id");
 
-    let balance_after = dispatcher.get_balance();
-    assert(balance_after == 42, 'Invalid balance');
+    let created_basket = dispatcher.get_basket(basket_id);
+    assert_eq!(created_basket, Basket { value: basket }, "invalid basket ");
 }
 
-#[test]
-#[feature("safe_dispatcher")]
-fn test_cannot_increase_balance_with_zero_value() {
-    let contract_address = deploy_contract("HelloStarknet");
-
-    let safe_dispatcher = IHelloStarknetSafeDispatcher { contract_address };
-
-    let balance_before = safe_dispatcher.get_balance().unwrap();
-    assert(balance_before == 0, 'Invalid balance');
-
-    match safe_dispatcher.increase_balance(0) {
-        Result::Ok(_) => core::panic_with_felt252('Should have panicked'),
-        Result::Err(panic_data) => {
-            assert(*panic_data.at(0) == 'Amount cannot be 0', *panic_data.at(0));
-        },
-    };
-}

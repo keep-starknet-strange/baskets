@@ -15,10 +15,11 @@ pub mod creator {
     };
 
     use starknet::{ContractAddress, contract_address_const};
-    #[derive(Debug, Serde, Drop)]
+    #[derive(Debug, Serde, Drop, PartialEq)]
     pub struct Basket {
-        value: Span<Token>,
+        pub value: Span<Token>,
     }
+
     pub impl DefaultToken of Default<Token> {
         fn default() -> Token {
             Token { token: contract_address_const::<0x0>(), amount: 0 }
@@ -31,7 +32,7 @@ pub mod creator {
     }
 
 
-    #[derive(Debug, Drop, Hash, Serde, starknet::Store, Clone, Copy)]
+    #[derive(Debug, Drop, Hash, Serde, starknet::Store, Clone, Copy, PartialEq)]
     pub struct Token {
         pub token: ContractAddress,
         pub amount: u256,
@@ -44,19 +45,18 @@ pub mod creator {
         total_baskets: u128,
     }
 
-    // Map<u128, Map<u8, Token>>
-    // Map<u8, Token>
     #[abi(embed_v0)]
     impl CreatorImpl of super::Creator<ContractState> {
         fn create_basket(ref self: ContractState, basket: Span<Token>) -> u128 {
             let basket_id = self.total_baskets.read();
             let mut i = 0;
             for token in basket {
-                self.baskets.entry((basket_id, basket.len())).write(*token);
+                self.baskets.entry((basket_id, i)).write(*token);
                 i += 1;
             };
 
             self.total_baskets.write(basket_id + 1);
+            self.basket_len.entry(basket_id).write(i);
             basket_id
         }
 
