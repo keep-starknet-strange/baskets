@@ -1,5 +1,5 @@
-import Dashboard from '@/components/dashboard'
-import TopNav from '@/components/topnav'
+import Dashboard from "@/components/dashboard";
+import TopNav from "@/components/topnav";
 
 export default function Home() {
   return (
@@ -7,6 +7,5 @@ export default function Home() {
       <TopNav />
       <Dashboard />
     </main>
-  )
+  );
 }
-
