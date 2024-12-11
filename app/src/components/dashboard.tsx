@@ -3,20 +3,20 @@
 import { useState } from 'react'
 import { ArrowUpIcon, TrendingUpIcon, UserIcon, WalletIcon } from 'lucide-react'
 
-export default function VaultsDashboard() {
+export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('active')
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Trending Vaults Section */}
+        {/* Trending Baskets Section */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <TrendingUpIcon className="w-5 h-5" />
             <h2 className="text-xl font-semibold">Top Trending</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {trendingVaults.map((vault) => (
+            {trendingBaskets.map((vault) => (
               <div key={vault.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -48,11 +48,11 @@ export default function VaultsDashboard() {
           </div>
         </section>
 
-        {/* User Vaults Section */}
+        {/* User Baskets Section */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <UserIcon className="w-5 h-5" />
-            <h2 className="text-xl font-semibold">Your Vaults</h2>
+            <h2 className="text-xl font-semibold">Your Baskets</h2>
           </div>
           <div className="mb-4">
             <div className="inline-flex rounded-md shadow-sm" role="group">
@@ -82,7 +82,7 @@ export default function VaultsDashboard() {
           </div>
           {activeTab === 'active' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {userVaults.map((vault) => (
+              {userBaskets.map((vault) => (
                 <div key={vault.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -113,7 +113,7 @@ export default function VaultsDashboard() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">No closed vaults</div>
+            <div className="text-center py-8 text-gray-400">No closed Baskets</div>
           )}
         </section>
       </div>
@@ -121,7 +121,7 @@ export default function VaultsDashboard() {
   )
 }
 
-const trendingVaults = [
+const trendingBaskets = [
   {
     id: 1,
     name: "ETH-BTC LP Vault",
@@ -148,7 +148,7 @@ const trendingVaults = [
   },
 ]
 
-const userVaults = [
+const userBaskets = [
   {
     id: 1,
     name: "ETH-BTC LP Vault",
