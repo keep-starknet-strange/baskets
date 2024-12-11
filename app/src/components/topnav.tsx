@@ -9,6 +9,7 @@ import Image from "next/image";
 
 export default function TopNav() {
   const { connect, connectors } = useConnect();
+  const { address, status } = useAccount();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -33,10 +34,32 @@ export default function TopNav() {
             <Bars3Icon aria-hidden="true" className="size-6" />
           </button>
         </div>
+        <div className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text pb-2 text-xl font-semibold tracking-tighter text-transparent">
+          Baskets
+        </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm/6 font-semibold text-white">
-            Connect wallet <span aria-hidden="true">&rarr;</span>
-          </a>
+          {status === "disconnected" ? (
+            connectors.map((connector) => (
+              <div
+                key={connector.id}
+                className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200"
+              >
+                <button onClick={() => connect({ connector })} type="button">
+                  <Image
+                    width={6}
+                    height={6}
+                    alt="conn-icon"
+                    src={connector?.icon.toString()}
+                    className="w-6"
+                  />
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="font-thin text-gray rounded-md border border-gray-700 p-2 text-gray-500">
+              ({address?.toString().slice(0, 10).toString()})
+            </div>
+          )}
         </div>
       </nav>
       <Dialog
