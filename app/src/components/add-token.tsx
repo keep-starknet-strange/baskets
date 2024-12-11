@@ -16,7 +16,7 @@ export default function AddToken() {
 
   const handleAddElement = () => {
     if (newElement && percentage) {
-      let basketAllocation = +percentage + aggPercentage;
+      const basketAllocation = +percentage + aggPercentage;
       if (basketAllocation > 100) {
         console.log("can't allocate more than 100%");
       } else {
@@ -32,7 +32,7 @@ export default function AddToken() {
   };
 
   const handleRemoveElement = (index: number) => {
-    let basketAllocation = aggPercentage - +percentage;
+    const basketAllocation = aggPercentage - +percentage;
     setAggPercentage(basketAllocation);
     setSelectedElements(selectedElements.filter((_, i) => i !== index));
   };
