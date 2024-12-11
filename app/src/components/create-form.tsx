@@ -5,31 +5,32 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
-import {} from // useSendTransaction,
-// useContract,
-// useAccount,
-// useNetwork,
-"@starknet-react/core";
-// import { basketsAbi } from "@/lib/data/basketsAbi";
-// import { erc20Abi } from "@/lib/data/erc20Abi";
+import {
+  useSendTransaction,
+  useContract,
+  useAccount,
+  useNetwork,
+} from "@starknet-react/core";
+import { basketsAbi } from "@/lib/data/basketsAbi";
+import { erc20Abi } from "@/lib/data/erc20Abi";
 
-// const BASKETS_ADDRESS =
-//   "0x041db2adf4e1b06a3122b33ab4bb6601c10a9e84bd32099c354578a038c42446";
+const BASKETS_ADDRESS =
+  "0x041db2adf4e1b06a3122b33ab4bb6601c10a9e84bd32099c354578a038c42446";
 
-// const pools = [
-//   {
-//     id: 1,
-//     address:
-//       "0x06ed884263e9bb21cb571e02d89aa1dd8772f8a95a52bd9c685f3d0e8967054a",
-//     name: "STRK/USDC",
-//   },
-//   {
-//     id: 2,
-//     address:
-//       "0x03c06d89aa10f5ce18182aac4b821d3b0c3edd3b9a9ad505952b3b386029b6c2",
-//     name: "ETH/USDC",
-//   },
-// ];
+const pools = [
+  {
+    id: 1,
+    address:
+      "0x06ed884263e9bb21cb571e02d89aa1dd8772f8a95a52bd9c685f3d0e8967054a",
+    name: "STRK/USDC",
+  },
+  {
+    id: 2,
+    address:
+      "0x03c06d89aa10f5ce18182aac4b821d3b0c3edd3b9a9ad505952b3b386029b6c2",
+    name: "ETH/USDC",
+  },
+];
 
 const tokens = [
   {
@@ -56,9 +57,6 @@ const formSchema = z.object({
   symbol: z.string().min(2, {
     message: "All upper case.",
   }),
-  commission: z.number().min(0).max(100, {
-    message: "Commission must be between 0 and 100.",
-  }),
 });
 
 interface SelectedElement {
@@ -72,15 +70,15 @@ export default function CryptoBasketForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newElement, setNewElement] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  // const { address } = useAccount();
-  // const { chain } = useNetwork();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
   const [selectedElements, setSelectedElements] = useState<SelectedElement[]>(
     [],
   );
-  // const { contract } = useContract({
-  //   abi: erc20Abi,
-  //   address: chain.nativeCurrency.address,
-  // });
+  const { contract } = useContract({
+    abi: erc20Abi,
+    address: chain.nativeCurrency.address,
+  });
 
   const handleAddElement = () => {
     if (newElement && amount) {
@@ -106,20 +104,20 @@ export default function CryptoBasketForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       symbol: "",
-      commission: 0,
     },
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = () => {
     setIsSubmitting(true);
-    // const { send, error } = useSendTransaction({
-    //   calls:
-    //     contract && address
-    //       ? [contract.populate("transfer", [address, 1])]
-    //       : undefined,
-    // });
-    // console.log("SEND: ", send);
-    // console.log("ERROR: ", error);
+    console.log("WHAT THE FUCK");
+    const { send, error } = useSendTransaction({
+      calls:
+        contract && address
+          ? [contract.populate("transfer", [address, 1])]
+          : undefined,
+    });
+    console.log("SEND: ", send);
+    console.log("ERROR: ", error);
     reset();
     alert("Basket created successfully!");
   };
@@ -142,29 +140,6 @@ export default function CryptoBasketForm() {
         />
         {errors.symbol && (
           <p className="mt-1 text-sm text-red-500">{errors.symbol.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label
-          htmlFor="commission"
-          className="block text-sm font-medium text-gray-300"
-        >
-          Commission (%)
-        </label>
-        <input
-          type="number"
-          id="commission"
-          {...register("commission", { valueAsNumber: true })}
-          step="0.01"
-          min="0"
-          max="100"
-          className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        {errors.commission && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.commission.message}
-          </p>
         )}
       </div>
 
