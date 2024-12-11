@@ -43,7 +43,6 @@ type FormSchemaType = z.infer<typeof formSchema>;
 
 export default function CryptoBasketForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
   const [selected, setSelected] = useState(people[3]);
 
   const {
@@ -62,10 +61,9 @@ export default function CryptoBasketForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<FormSchemaType> = () => {
     setIsSubmitting(true);
     // Here you would typically send the form data to your backend
-    console.log(data, isPublic);
     setTimeout(() => {
       setIsSubmitting(false);
       reset();
