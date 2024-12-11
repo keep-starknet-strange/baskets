@@ -9,11 +9,14 @@ use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTr
 fn AMOUNT() -> u256 {
     10000000000000000000
 }
+fn USER() -> ContractAddress {
+    contract_address_const::<0x1>()
+}
 fn setup_contracts() -> (CreatorDispatcher, IERC20Dispatcher) {
     let erc20_address = deploy_erc20(
         name: "NAME",
         symbol: "SYMBOL",
-        supply: AMOUNT(),
+        supply: 10 * AMOUNT(),
         recipient: contract_address_const::<0x1>(),
         owner: contract_address_const::<0x1>(),
     );
@@ -89,26 +92,32 @@ fn test_deposit_and_withdraw() {
     // first deposit
     let caller_address = contract_address_const::<0x1>();
     cheat_caller_address_once(contract_address: erc20.contract_address, :caller_address);
-    erc20.approve(spender: creator.contract_address, amount: 10000000000000000000);
+    erc20.approve(spender: creator.contract_address, amount: AMOUNT());
     cheat_caller_address_once(creator.contract_address, :caller_address);
-    creator.deposit(:basket_id, AMOUNT(), 1);
+    creator.deposit(basket_id, AMOUNT(), 1);
     let basket_info = creator.get_basket_info(:basket_id);
     assert_eq!(basket_info.liquidity, 1);
 
     // second deposit
+    cheat_caller_address_once(contract_address: erc20.contract_address, :caller_address);
+    erc20.approve(spender: creator.contract_address, amount: AMOUNT());
     cheat_caller_address_once(creator.contract_address, :caller_address);
-    creator.deposit(:basket_id);
+    creator.deposit(basket_id, AMOUNT(), 1);
     let basket_info = creator.get_basket_info(:basket_id);
     assert_eq!(basket_info.liquidity, 2);
 
     // first withdraw
-    cheat_caller_address_once(:contract_address, :caller_address);
+    cheat_caller_address_once(contract_address: erc20.contract_address, :caller_address);
+    erc20.approve(spender: creator.contract_address, amount: AMOUNT());
+    cheat_caller_address_once(creator.contract_address, :caller_address);
     creator.withdraw(:basket_id);
     let basket_info = creator.get_basket_info(:basket_id);
     assert_eq!(basket_info.liquidity, 1);
 
     // second withdraw
-    cheat_caller_address_once(:contract_address, :caller_address);
+    cheat_caller_address_once(contract_address: erc20.contract_address, :caller_address);
+    erc20.approve(spender: creator.contract_address, amount: AMOUNT());
+    cheat_caller_address_once(creator.contract_address, :caller_address);
     creator.withdraw(:basket_id);
     let basket_info = creator.get_basket_info(:basket_id);
     assert_eq!(basket_info.liquidity, 0);
@@ -117,24 +126,16 @@ fn test_deposit_and_withdraw() {
 #[test]
 #[should_panic(expected: "User have nothing to withdraw")]
 fn test_withdraw_without_deposit() {
-    let contract_address = deploy_main_contract(token_address: contract_address_const::<0x1>());
-    let erc20_address = deploy_erc20(
-        name: "NAME",
-        symbol: "SYMBOL",
-        supply: 10000000000000000000,
-        recipient: contract_address_const::<0x1>(),
-        owner: contract_address_const::<0x1>(),
-    );
+    let (creator, erc20) = setup_contracts();
 
-    let dispatcher = CreatorDispatcher { contract_address };
     let basket = array![
-        Token { amount: 1, token: erc20_address }, Token { amount: 2, token: erc20_address },
+        Token { amount: 1, token: erc20.contract_address },
+        Token { amount: 2, token: erc20.contract_address },
     ]
         .span();
 
-    let basket_id_key = dispatcher.create_basket(:basket);
-    let basket_id = (basket_id_key, basket.len());
+    let basket_id = creator.create_basket(:basket);
 
-    dispatcher.withdraw(:basket_id);
+    creator.withdraw(basket_id);
 }
 

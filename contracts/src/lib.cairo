@@ -119,8 +119,13 @@ pub mod creator {
                     sender: get_caller_address(), recipient: get_contract_address(), :amount,
                 );
 
-            // TODO:
             let basket = self.get_basket(basket_id_key: basket_id);
+            for token in basket.value {
+                for i in 0..quantity {
+                    ()
+                }
+            };
+
             // increase user token balance
             let user = get_caller_address();
             let assets = self.user_info.entry(user).entry(basket_id).read();
@@ -165,41 +170,5 @@ pub mod creator {
         fn get_basket_info(self: @ContractState, basket_id: u128) -> BasketInfo {
             self.basket_info.read(basket_id)
         }
-        // fn partial_withdraw(ref self: ContractState, basket_id: BasketId, amount: Amount) {
-    //     // decrease basket info liquidity
-    //     let mut basket_info = self.basket_info.read(basket_id);
-    //     basket_info.liquidity -= amount;
-    //     self.basket_info.write(basket_id, basket_info);
-
-        //     // decrease user token balance
-
-        // }
-
-        // fn sell(ref self: ContractState, basket_id: BasketId) {
-    //     // decrease basket info liquidity
-    //     let mut basket_info = self.basket_info.read(basket_id);
-    //     basket_info.liquidity -= amount;
-    //     self.basket_info.write(basket_id, basket_info);
-
-        //     // decrease user token balance
-
-        // }
-
-        // fn switch(ref self: ContractState, from: BasketId ,to: BasketId) {
-    //     // decrease basket info liquidity
-    //     let mut basket_info = self.basket_info.read(from);
-    //     basket_info.liquidity -= amount;
-    //     self.basket_info.write(from, basket_info);
-
-        //     // decrease user token balance
-
-        //     // increase baskt info liquidity
-    //     let mut basket_info = self.basket_info.read(to);
-    //     basket_info.liquidity += amount;
-    //     self.basket_info.write(to, basket_info);
-
-        //     // increase user token balance
-
-        // }
     }
 }
