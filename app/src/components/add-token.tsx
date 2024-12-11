@@ -9,22 +9,31 @@ interface SelectedElement {
 export default function AddToken() {
   const [newElement, setNewElement] = useState<string>("");
   const [percentage, setPercentage] = useState<string>("");
+  const [aggPercentage, setAggPercentage] = useState<number>(0);
   const [selectedElements, setSelectedElements] = useState<SelectedElement[]>(
     [],
   );
 
   const handleAddElement = () => {
     if (newElement && percentage) {
-      setSelectedElements([
-        ...selectedElements,
-        { name: newElement, percentage: Number(percentage) },
-      ]);
-      setNewElement("");
-      setPercentage("");
+      let basketAllocation = +percentage + aggPercentage;
+      if (basketAllocation > 100) {
+        console.log("can't allocate more than 100%");
+      } else {
+        setSelectedElements([
+          ...selectedElements,
+          { name: newElement, percentage: Number(percentage) },
+        ]);
+        setNewElement("");
+        setPercentage("");
+        setAggPercentage(basketAllocation);
+      }
     }
   };
 
   const handleRemoveElement = (index: number) => {
+    let basketAllocation = aggPercentage - +percentage;
+    setAggPercentage(basketAllocation);
     setSelectedElements(selectedElements.filter((_, i) => i !== index));
   };
 
@@ -48,13 +57,13 @@ export default function AddToken() {
           </select>
         </div>
 
-        <div className="mb-2 p-2">
+        <div className="mb-8 p-2">
           <label className="block text-sm font-medium text-gray-100 my-2">
-            Percentage
+            Percentage (tot. {aggPercentage}%)
           </label>
           <input
             type="number"
-            className="block w-1/4 rounded-md border-gray-300 shadow-sm bg-gray-200 focus:ring-indigo-500 focus:border-indigo-500 pl-4"
+            className="block w-1/4 rounded-md text-gray-500 border-gray-300 shadow-sm bg-gray-200 focus:ring-indigo-500 focus:border-indigo-500 pl-4"
             value={percentage}
             onChange={(e) => setPercentage(e.target.value)}
             placeholder="%"
@@ -70,7 +79,6 @@ export default function AddToken() {
       </div>
 
       <div className="w-full max-w-md">
-        <h2 className="text-xl font-bold mb-2">Basket:</h2>
         <ul className="bg-gray-200 rounded-lg shadow divide-y divide-gray-300">
           {selectedElements.map((item, index) => (
             <li

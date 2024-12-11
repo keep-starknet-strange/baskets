@@ -46,6 +46,7 @@ export default function TopNav() {
               >
                 <button onClick={() => connect({ connector })} type="button">
                   <Image
+                    priority={false}
                     width={6}
                     height={6}
                     alt="conn-icon"
