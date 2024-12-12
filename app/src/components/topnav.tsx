@@ -39,35 +39,36 @@ export default function TopNav() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {status === "disconnected" ? (
-            connectors.map((connector) => (
-              <div
-                key={connector.id}
-                className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200"
-              >
-                {connector.id === "braavos" && (
-                  <div onClick={() => connect({ connector: braavos() })}>
-                    <Image
-                      width={6}
-                      height={6}
-                      alt="conn-icon"
-                      src="braavos.svg"
-                      className="w-6"
-                    />
-                  </div>
-                )}
-                {connector.id === "argentX" && (
-                  <div onClick={() => connect({ connector: argent() })}>
-                    <Image
-                      width={6}
-                      height={6}
-                      alt="conn-icon"
-                      src="argent.svg"
-                      className="w-6"
-                    />
-                  </div>
-                )}
+            <div className="flex flex-row">
+              <div className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200">
+                <div
+                  onClick={() => connect({ connector: braavos() })}
+                  className="mx-2"
+                >
+                  <Image
+                    width={6}
+                    height={6}
+                    alt="conn-icon"
+                    src="braavos.svg"
+                    className="w-6"
+                  />
+                </div>
               </div>
-            ))
+              <div className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200">
+                <div
+                  onClick={() => connect({ connector: argent() })}
+                  className="mx-2"
+                >
+                  <Image
+                    width={6}
+                    height={6}
+                    alt="conn-icon"
+                    src="argent.svg"
+                    className="w-6"
+                  />
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="font-thin text-gray rounded-md border border-gray-700 p-2 text-gray-500">
               ({address?.toString().slice(0, 10).toString()})
