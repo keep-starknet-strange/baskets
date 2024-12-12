@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAccount, useConnect } from "@starknet-react/core";
+import { useAccount, useConnect, argent, braavos } from "@starknet-react/core";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -45,7 +45,7 @@ export default function TopNav() {
                 className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200"
               >
                 {connector.id === "braavos" && (
-                  <div onClick={() => connect({ connector })}>
+                  <div onClick={() => connect({ connector: braavos() })}>
                     <Image
                       width={6}
                       height={6}
@@ -56,7 +56,7 @@ export default function TopNav() {
                   </div>
                 )}
                 {connector.id === "argentX" && (
-                  <div onClick={() => connect({ connector })}>
+                  <div onClick={() => connect({ connector: argent() })}>
                     <Image
                       width={6}
                       height={6}
