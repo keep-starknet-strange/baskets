@@ -16,8 +16,19 @@ export default function ActionButtons() {
   });
 
   const deposit = async () => {
-    // account?.execute([{contractAddress: "0x53b40a647cedfca6ca84f542a0fe36736031905a9639a7f19a3c1e66bfd5080", entrypoint:, calldata: }])
-    await contract.deposit(1, 100000000, 10);
+    account?.execute([
+      {
+        contractAddress:
+          "0x53b40a647cedfca6ca84f542a0fe36736031905a9639a7f19a3c1e66bfd5080",
+        entrypoint: "approve",
+        calldata: [BASKETS_ADDRESS, 1000, 0],
+      },
+      {
+        contractAddress: BASKETS_ADDRESS,
+        entrypoint: "deposit",
+        calldata: [1, 1000, 0, 1],
+      },
+    ]);
     alert("deposit successful");
   };
 
