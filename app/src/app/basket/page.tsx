@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import ActionButtons from "@/components/action-buttons";
 import TopNav from "@/components/topnav";
-import Holdings from "@/components/holdings";
+// import Holdings from "@/components/holdings";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <div className="p-20">
         <Header />
         <ActionButtons />
-        <Holdings />
+        {/* <Holdings /> */}
       </div>
     </div>
   );
