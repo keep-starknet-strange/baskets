@@ -28,13 +28,13 @@ export default function ActionButtons() {
       {
         contractAddress: BASKETS_ADDRESS,
         entrypoint: "deposit",
-        calldata: [1, 1000000, 0, amount],
+        calldata: [0, 1000000, 0, amount],
       },
     ]);
   };
 
   const withdraw = async () => {
-    await contract.withdraw(1);
+    await contract.withdraw(0);
   };
 
   return (
