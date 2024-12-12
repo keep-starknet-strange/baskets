@@ -9,16 +9,11 @@ import { basketsAbi } from "@/lib/data/basketsAbi";
 
 const BASKETS_ADDRESS =
   "0x2d8c2953c43dde1a0dcc729804d70e3dbf4841fd9205f0d28feb5544fceb27c";
-const TOKENS = {
-  "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d": "STRK",
-  "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": "ETH",
-  "0x53b40a647cedfca6ca84f542a0fe36736031905a9639a7f19a3c1e66bfd5080": "USDC",
-};
 
 const userBaskets = [
   {
     id: 1,
-    name: "$ETHMAXI LP",
+    name: "$ETHMAXI",
     performance: 15.2,
     deposited: "10,000",
     currentValue: "11,520",
@@ -26,16 +21,8 @@ const userBaskets = [
   },
 ];
 
-interface Basket {
-  name: string;
-  performance: number;
-  liquidity: number;
-  tokens: String[];
-}
-
 export default function Dashboard({}) {
   const [activeTab, setActiveTab] = useState("active");
-  const [baskets, setBaskets] = useState<Basket[]>([]);
   const { account } = useAccount();
   const { contract } = useContract({
     abi: basketsAbi,
@@ -45,15 +32,14 @@ export default function Dashboard({}) {
 
   useEffect(() => {
     const fetchBaskets = async () => {
-      let baskets = new Array();
+      const baskets = [];
       for (let i = 0; i <= 20; i++) {
         baskets.push(contract.get_basket(i));
       }
-      let real_baskets = await Promise.all(baskets);
-      setBaskets(real_baskets);
+      await Promise.all(baskets);
     };
     fetchBaskets();
-  }, []);
+  }, [contract]);
 
   return (
     <section>
