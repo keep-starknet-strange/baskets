@@ -45,7 +45,7 @@ export default function TopNav() {
                 className="flex flex-row justify-between rounded-md border border-gray-700 mx-2 p-2 hover:bg-gray-200"
               >
                 {connector.id === "braavos" && (
-                  <button onClick={() => connect({ connector })} type="button">
+                  <div onClick={() => connect({ connector })}>
                     <Image
                       width={6}
                       height={6}
@@ -53,10 +53,10 @@ export default function TopNav() {
                       src="braavos.svg"
                       className="w-6"
                     />
-                  </button>
+                  </div>
                 )}
                 {connector.id === "argentX" && (
-                  <button onClick={() => connect({ connector })} type="button">
+                  <div onClick={() => connect({ connector })}>
                     <Image
                       width={6}
                       height={6}
@@ -64,7 +64,7 @@ export default function TopNav() {
                       src="argent.svg"
                       className="w-6"
                     />
-                  </button>
+                  </div>
                 )}
               </div>
             ))
