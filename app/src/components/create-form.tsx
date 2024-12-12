@@ -54,7 +54,7 @@ const formSchema = z.object({
 });
 
 interface SelectedElement {
-  address: string;
+  token: string;
   amount: number;
 }
 
@@ -64,8 +64,7 @@ export default function CryptoBasketForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newElement, setNewElement] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  const { address, account } = useAccount();
-  const { chain } = useNetwork();
+  const { account } = useAccount();
   const [selectedElements, setSelectedElements] = useState<SelectedElement[]>(
     [],
   );
@@ -79,7 +78,7 @@ export default function CryptoBasketForm() {
     if (newElement && amount) {
       setSelectedElements([
         ...selectedElements,
-        { address: newElement, amount: Number(amount) },
+        { token: newElement, amount: Number(amount) },
       ]);
       setNewElement("");
       setAmount("");
@@ -94,7 +93,6 @@ export default function CryptoBasketForm() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,14 +102,8 @@ export default function CryptoBasketForm() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async () => {
     setIsSubmitting(true);
-    let res = await contract.create_basket([
-      {
-        token:
-          "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
-        amount: "0x1",
-      },
-    ]);
-    alert("Basket created successfully!");
+    let res = await contract.create_basket(selectedElements);
+    alert("Basket created successfully!" + res);
   };
 
   return (
@@ -185,7 +177,7 @@ export default function CryptoBasketForm() {
               >
                 <div>
                   <p className="font-medium text-gray-500">
-                    {item.address}&nbsp;&nbsp;&nbsp;
+                    {item.token}&nbsp;&nbsp;&nbsp;
                     <span className="text-md text-green-600">
                       {item.amount}
                     </span>
