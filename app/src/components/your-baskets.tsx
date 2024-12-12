@@ -51,7 +51,6 @@ export default function Dashboard({}) {
                   </div>
                   <div>
                     <h3 className="text-sm font-medium">{vault.name}</h3>
-                    <p className="text-xs text-gray-400">{vault.strategy}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1 text-green-500 text-sm">
@@ -91,18 +90,9 @@ export default function Dashboard({}) {
 const userBaskets = [
   {
     id: 1,
-    name: "ETH-BTC LP Vault",
-    strategy: "Delta Neutral",
+    name: "$ETHMAXI LP",
     performance: 15.2,
     deposited: "10,000",
     currentValue: "11,520",
-  },
-  {
-    id: 2,
-    name: "USDC Yield",
-    strategy: "Stable Yield",
-    performance: 7.8,
-    deposited: "5,000",
-    currentValue: "5,390",
   },
 ];
