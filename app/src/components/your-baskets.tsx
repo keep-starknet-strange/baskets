@@ -1,12 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowUpIcon, WalletIcon } from "lucide-react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { useContract, useAccount } from "@starknet-react/core";
+import { basketsAbi } from "@/lib/data/basketsAbi";
+
+const BASKETS_ADDRESS =
+  "0x2d8c2953c43dde1a0dcc729804d70e3dbf4841fd9205f0d28feb5544fceb27c";
+
+const userBaskets = [
+  {
+    id: 1,
+    name: "$ETHMAXI LP",
+    performance: 15.2,
+    deposited: "10,000",
+    currentValue: "11,520",
+  },
+];
 
 export default function Dashboard({}) {
   const [activeTab, setActiveTab] = useState("active");
+  const { account } = useAccount();
+  const { contract } = useContract({
+    abi: basketsAbi,
+    address: BASKETS_ADDRESS,
+    provider: account,
+  });
+
+  useEffect(() => {
+    const fetchBaskets = async () => {
+      contract.get_basket();
+    };
+    fetchBaskets();
+  }, []);
 
   return (
     <section>
@@ -86,13 +114,3 @@ export default function Dashboard({}) {
     </section>
   );
 }
-
-const userBaskets = [
-  {
-    id: 1,
-    name: "$ETHMAXI LP",
-    performance: 15.2,
-    deposited: "10,000",
-    currentValue: "11,520",
-  },
-];
