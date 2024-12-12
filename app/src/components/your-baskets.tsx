@@ -50,7 +50,6 @@ export default function Dashboard({}) {
         baskets.push(contract.get_basket(i));
       }
       let real_baskets = await Promise.all(baskets);
-      console.log("REAL BASKETS: ", real_baskets);
       setBaskets(real_baskets);
     };
     fetchBaskets();
@@ -136,8 +135,8 @@ export default function Dashboard({}) {
                               gradientUnits="userSpaceOnUse"
                               spreadMethod="reflect"
                             >
-                              <stop offset="0" stop-color="#1a6dff" />
-                              <stop offset="1" stop-color="#c822ff" />
+                              <stop offset="0" stopColor="#1a6dff" />
+                              <stop offset="1" stopColor="#c822ff" />
                             </linearGradient>
                             <path
                               fill="url(#Yz6f8FIFqMLeHS3CJHqXla)"
@@ -152,8 +151,8 @@ export default function Dashboard({}) {
                               gradientUnits="userSpaceOnUse"
                               spreadMethod="reflect"
                             >
-                              <stop offset="0" stop-color="#6dc7ff" />
-                              <stop offset="1" stop-color="#e6abff" />
+                              <stop offset="0" stopColor="#6dc7ff" />
+                              <stop offset="1" stopColor="#e6abff" />
                             </linearGradient>
                             <path
                               fill="url(#Yz6f8FIFqMLeHS3CJHqXlb)"

@@ -3,7 +3,7 @@ import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 export default function Header() {
   return (
     <header className="bg-gray-900 mb-8">
-      <h1 className="text-3xl font-bold mb-4">Lucas&apos;s Dumbshit Index</h1>
+      <h1 className="text-3xl font-bold mb-4">Some performant index</h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Total Value"
