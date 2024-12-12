@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function TopNav() {
-  const { connect, connectors } = useConnect();
+  const { connect } = useConnect();
   const { address, status } = useAccount();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

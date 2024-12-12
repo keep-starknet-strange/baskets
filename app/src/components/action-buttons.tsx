@@ -7,27 +7,6 @@ import { basketsAbi } from "@/lib/data/basketsAbi";
 const BASKETS_ADDRESS =
   "0x2d8c2953c43dde1a0dcc729804d70e3dbf4841fd9205f0d28feb5544fceb27c";
 
-const tokens = [
-  {
-    id: 1,
-    address:
-      "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
-    symbol: "STRK",
-  },
-  {
-    id: 2,
-    address:
-      "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
-    symbol: "ETH",
-  },
-  {
-    id: 3,
-    address:
-      "0x53b40a647cedfca6ca84f542a0fe36736031905a9639a7f19a3c1e66bfd5080",
-    symbol: "USDC",
-  },
-];
-
 export default function ActionButtons() {
   const { account } = useAccount();
   const { contract } = useContract({
@@ -38,13 +17,13 @@ export default function ActionButtons() {
 
   const deposit = async () => {
     // account?.execute([{contractAddress: "0x53b40a647cedfca6ca84f542a0fe36736031905a9639a7f19a3c1e66bfd5080", entrypoint:, calldata: }])
-    const res = await contract.deposit(1, 100000000, 10);
+    await contract.deposit(1, 100000000, 10);
     alert("deposit successful");
   };
 
   const withdraw = async () => {
-    const res = await contract.withdraw(1);
-    alert("deposit successful");
+    await contract.withdraw(1);
+    alert("withdraw successful");
   };
 
   return (

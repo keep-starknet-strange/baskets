@@ -87,8 +87,8 @@ export default function CryptoBasketForm() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async () => {
     setIsSubmitting(true);
-    const res = await contract.create_basket(selectedElements);
-    alert("Basket created successfully!" + res);
+    await contract.create_basket(selectedElements);
+    alert("Basket created successfully!");
   };
 
   return (
