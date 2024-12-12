@@ -5,26 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
-import { useContract, useAccount, useNetwork } from "@starknet-react/core";
+import { useContract, useAccount } from "@starknet-react/core";
 import { basketsAbi } from "@/lib/data/basketsAbi";
 
 const BASKETS_ADDRESS =
   "0x2d8c2953c43dde1a0dcc729804d70e3dbf4841fd9205f0d28feb5544fceb27c";
-
-const pools = [
-  {
-    id: 1,
-    address:
-      "0x06ed884263e9bb21cb571e02d89aa1dd8772f8a95a52bd9c685f3d0e8967054a",
-    name: "STRK/USDC",
-  },
-  {
-    id: 2,
-    address:
-      "0x03c06d89aa10f5ce18182aac4b821d3b0c3edd3b9a9ad505952b3b386029b6c2",
-    name: "ETH/USDC",
-  },
-];
 
 const tokens = [
   {
@@ -102,7 +87,7 @@ export default function CryptoBasketForm() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async () => {
     setIsSubmitting(true);
-    let res = await contract.create_basket(selectedElements);
+    const res = await contract.create_basket(selectedElements);
     alert("Basket created successfully!" + res);
   };
 
