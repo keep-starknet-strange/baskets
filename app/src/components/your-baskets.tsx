@@ -9,6 +9,15 @@ import { basketsAbi } from "@/lib/data/basketsAbi";
 
 const BASKETS_ADDRESS =
   "0x2d8c2953c43dde1a0dcc729804d70e3dbf4841fd9205f0d28feb5544fceb27c";
+const TOKENS =
+{
+  "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d":
+    "STRK",
+  "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7":
+    "ETH",
+  "0x53b40a647cedfca6ca84f542a0fe36736031905a9639a7f19a3c1e66bfd5080":
+    "USDC",
+};
 
 const userBaskets = [
   {
@@ -17,10 +26,11 @@ const userBaskets = [
     performance: 15.2,
     deposited: "10,000",
     currentValue: "11,520",
+    tokens: [{symbol:"ETH"}, {symbol:"STRK"}]
   },
 ];
 
-export default function Dashboard({}) {
+export default function Dashboard({ }) {
   const [activeTab, setActiveTab] = useState("active");
   const { account } = useAccount();
   const { contract } = useContract({
@@ -31,9 +41,16 @@ export default function Dashboard({}) {
 
   useEffect(() => {
     const fetchBaskets = async () => {
-      contract.get_basket();
+      console.log("Fetching the baskets")
+      let baskets = new Array();
+      for (let i = 0; i <= 20; i++) {
+        baskets.push(contract.get_basket(i));
+      };
+      let real_baskets = await Promise.all(baskets);
     };
     fetchBaskets();
+    console.log("Fetched the baskets")
+
   }, []);
 
   return (
@@ -42,22 +59,20 @@ export default function Dashboard({}) {
         <div className="inline-flex rounded-md shadow-sm" role="group">
           <button
             type="button"
-            className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
-              activeTab === "active"
-                ? "bg-indigo-500 text-white"
-                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-            }`}
+            className={`px-4 py-2 text-sm font-medium rounded-l-lg ${activeTab === "active"
+              ? "bg-indigo-500 text-white"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+              }`}
             onClick={() => setActiveTab("active")}
           >
             Active
           </button>
           <button
             type="button"
-            className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
-              activeTab === "closed"
-                ? "bg-indigo-500 text-white"
-                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-            }`}
+            className={`px-4 py-2 text-sm font-medium rounded-r-lg ${activeTab === "closed"
+              ? "bg-indigo-500 text-white"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+              }`}
             onClick={() => setActiveTab("closed")}
           >
             Closed
@@ -95,6 +110,16 @@ export default function Dashboard({}) {
                   <p className="text-xs text-gray-400">Current Value</p>
                   <p className="text-sm font-medium">${vault.currentValue}</p>
                 </div>
+
+                  {vault.tokens.map((token) => (
+                    <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                      {token.symbol}
+                    </span>
+                  )}
+
+
+
+
               </div>
             </Link>
           ))}
